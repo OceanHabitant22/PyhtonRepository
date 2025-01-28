@@ -3,34 +3,37 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_wtf import CSRFProtect
 from .config import Config
-from .routes import main  # Импортируем main, который является Blueprint
 
-# Инициализация базы данных и миграций
+# Инициализация базы данных, миграций и CSRF-защиты
 db = SQLAlchemy()
 migrate = Migrate()
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
 
+    app.config['SECRET_KEY'] = 'your_secret_key'
+
     # Настройка конфигурации
     app.config.from_object(Config)
-    app.config['DEBUG'] = True  # Включаем отладку
+
+    # Инициализация расширений
+    db.init_app(app)
+    migrate.init_app(app, db)
+    csrf.init_app(app)
+
+    # Регистрируем Blueprint
+    from .routes import main
+    app.register_blueprint(main)
 
     # Логирование ошибок в файл
     if not app.debug:
-        # Настройка обработчика для логирования в файл
-        handler = RotatingFileHandler('app.log', maxBytes=10240, backupCount=3)  # Пишем в файл app.log
-        handler.setLevel(logging.ERROR)  # Записываем только ошибки и более серьезные события
+        handler = RotatingFileHandler('app.log', maxBytes=10240, backupCount=3)
+        handler.setLevel(logging.ERROR)
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
         app.logger.addHandler(handler)
-
-    # Инициализация базы данных и миграций
-    db.init_app(app)
-    migrate.init_app(app, db)
-
-    # Регистрируем Blueprint
-    app.register_blueprint(main)
 
     return app

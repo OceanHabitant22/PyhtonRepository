@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask App</title>
+    <title>Secure File Storage</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
     <!-- Навигационная панель -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">FlaskApp</a>
+        <a class="navbar-brand" href="#">Secure Storage</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,10 +31,37 @@
 
     <!-- Контент страницы -->
     <div class="container mt-5">
-        <h1 class="text-center text-primary">Welcome to the Flask App!</h1>
-        <p class="lead text-center">This page is styled with Bootstrap and Flask.</p>
-        <div class="text-center">
-            <button class="btn btn-success">Click Me!</button>
+        <h1 class="text-center text-primary">Secure File Storage</h1>
+        <p class="lead text-center">Upload and manage your files securely.</p>
+
+        <!-- Форма загрузки файла -->
+        <div class="card p-4 mb-5 shadow">
+            <h2 class="text-secondary">Загрузить файл</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                {{ csrf_token() }}
+                <div class="form-group">
+                    <label for="user_id">User ID:</label>
+                    <input type="text" class="form-control" id="user_id" name="user_id" required>
+                </div>
+                <div class="form-group">
+                    <label for="file">Выберите файл:</label>
+                    <input type="file" class="form-control-file" id="file" name="file" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Загрузить</button>
+            </form>
+        </div>
+
+        <!-- Список файлов -->
+        <div class="card p-4 shadow">
+            <h2 class="text-secondary">Список файлов</h2>
+            <ul class="list-group">
+                {% for file in files %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ file }}
+                    <a href="/download/{{ file }}?user_id=1" class="btn btn-sm btn-success">Скачать</a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
