@@ -38,7 +38,7 @@
         <div class="card p-4 mb-5 shadow">
             <h2 class="text-secondary">Загрузить файл</h2>
             <form action="/upload" method="post" enctype="multipart/form-data">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf-token" value="{{ csrf_token() }}"/>
                 <div class="form-group">
                     <label for="user_id">User ID:</label>
                     <input type="text" class="form-control" id="user_id" name="user_id" required>
@@ -68,6 +68,30 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.querySelector("#uploadButton").addEventListener("click", function (event) {
+            event.preventDefault();
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+            const fileInput = document.querySelector('input[type="file"]');
+            const userId = document.querySelector('input[name="user_id"]').value;
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+            formData.append("user_id", userId);
+            formData.append("csrf_token", csrfToken);
+    
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Upload successful!");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
 
 </body>
 </html>
