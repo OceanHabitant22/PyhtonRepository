@@ -3,23 +3,17 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask
 from .config import Config
 from .routes import main
-from .extensions import db, migrate, csrf
-from flask_wtf.csrf import CSRFProtect
-
-# Import extensions from the new module
-from .extensions import db, migrate, csrf
+from .extensions import db, migrate
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
     app.config['SECRET_KEY'] = 'your_secret_key'  # Consider using an env variable
     app.config['UPLOAD_FOLDER'] = 'uploads'
-    csrf = CSRFProtect(app)  # Инициализация CSRF
 
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    csrf.init_app(app)
 
     with app.app_context():
         from . import routes

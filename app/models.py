@@ -14,7 +14,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Связь с зашифрованными данными
+    # Relationship with encrypted data
     encrypted_data = db.relationship('EncryptedData', backref='user', lazy=True)
 
     @property
@@ -38,32 +38,35 @@ class Key(db.Model):
     private_key = db.Column(db.String(1024), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user = db.relationship('User', backref=db.backref('keys', lazy=True))
+    
     def __repr__(self):
         return f"Key('{self.user_id}', '{self.timestamp}')"
     
 def save_keys_to_db(user_id, private_key, public_key):
-    new_key = Key(user_id=user_id, private_key=private_key.decode('utf-8'), public_key=public_key.decode('utf-8'))
+    new_key = Key(user_id=user_id, 
+                  private_key=private_key.decode('utf-8'), 
+                  public_key=public_key.decode('utf-8'))
     db.session.add(new_key)
     db.session.commit()
     
 class File(db.Model):
     __tablename__ = 'file'
     
-    id = db.Column(db.Integer, primary_key=True)  # ID файла
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Внешний ключ для связи с пользователем
-    file_name = db.Column(db.String(100), nullable=False)  # Имя файла
-    encrypted_content = db.Column(db.LargeBinary, nullable=False)  # Зашифрованное содержимое файла
+    id = db.Column(db.Integer, primary_key=True)  # File ID
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Foreign key linking to the user
+    file_name = db.Column(db.String(100), nullable=False)  # File name
+    encrypted_content = db.Column(db.LargeBinary, nullable=False)  # Encrypted file content
 
     user = db.relationship('User', backref=db.backref('files', lazy=True))
 
     def __repr__(self):
         return f"File('{self.file_name}', '{self.user_id}')"
 
-from flask_wtf import FlaskForm
-from wtforms import FileField, StringField, SubmitField
+# Using WTForms directly to avoid CSRF functionality.
+from wtforms import Form, FileField, StringField, SubmitField
 from wtforms.validators import DataRequired
 
-class UploadForm(FlaskForm):
+class UploadForm(Form):
     user_id = StringField('User ID', validators=[DataRequired()])
     file = FileField('Выберите файл', validators=[DataRequired()])
     submit = SubmitField('Загрузить')
@@ -72,7 +75,6 @@ class EncryptedData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(500), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
