@@ -2,6 +2,7 @@ import os
 import threading
 import time
 from flask import Flask
+from flask_migrate import Migrate
 from app.config import DevelopmentConfig  # config.py is inside app/ so this works if run as a package
 from app.myextensions import db, login_manager
 from app.routes import main as main_blueprint
@@ -9,7 +10,7 @@ from configparser import ConfigParser
 
 def create_app(config_class=DevelopmentConfig):
     from app.myextensions import db, login_manager  # Local import to avoid circular dependency
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='templates')
     app.config.from_object(config_class)
 
     # Ensure the upload folder exists
@@ -19,8 +20,12 @@ def create_app(config_class=DevelopmentConfig):
     db.init_app(app)
     login_manager.init_app(app)
 
+    # Initialize Flask-Migrate
+    migrate = Migrate(app, db)
+
     # Register blueprints
     app.register_blueprint(main_blueprint)
+    print("Registered blueprints:", app.blueprints)
 
     # Create database tables if they don’t exist
     with app.app_context():
@@ -31,7 +36,7 @@ def create_app(config_class=DevelopmentConfig):
 # Register the user_loader on the single login_manager instance
 @login_manager.user_loader
 def load_user(user_id):
-    from models import User  # local import to avoid circular dependencies
+    from .models import User  # local import to avoid circular dependencies
     return User.query.get(int(user_id))
 
 def rotate_keys(app):

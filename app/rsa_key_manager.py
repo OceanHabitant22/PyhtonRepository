@@ -1,5 +1,5 @@
 from crypto import generate_rsa_keys
-from models import RSAKey
+from .models import RSAKey
 from extensions import db
 
 def generate_and_store_rsa_keys(user_id):

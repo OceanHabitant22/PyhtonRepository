@@ -26,5 +26,6 @@ class File(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(200), nullable=False)
     encrypted_data = db.Column(db.LargeBinary, nullable=False)
+    encrypted_key = db.Column(db.LargeBinary, nullable=False)  # New column
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     key_version = db.Column(db.Integer, nullable=False)

@@ -7,12 +7,8 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { 
-      background-color: #f8f9fa; 
-    }
-    .card { 
-      margin-top: 50px; 
-    }
+    body { background-color: #f8f9fa; }
+    .card { margin-top: 50px; }
   </style>
 </head>
 <body>
@@ -32,6 +28,7 @@
               {% endif %}
             {% endwith %}
             <form action="{{ url_for('main.register') }}" method="post">
+              <!-- Since you don't want CSRF tokens, do not include {{ form.hidden_tag() }} -->
               <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" name="username" id="username" required>
@@ -39,6 +36,10 @@
               <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password" id="password" required>
+              </div>
+              <div class="form-group">
+                <label for="confirm">Repeat Password</label>
+                <input type="password" class="form-control" name="confirm" id="confirm" required>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
