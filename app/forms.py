@@ -1,24 +1,23 @@
-from wtforms import Form, StringField, TextAreaField, SubmitField, PasswordField, FileField, validators
-from wtforms.validators import DataRequired, Email, EqualTo
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField, PasswordField, FileField
+from wtforms.validators import DataRequired, EqualTo
 
-# Форма для ввода зашифрованных данных
-class DataForm(Form):
-    name = StringField()
-    data_content = TextAreaField('Enter Data to Encrypt', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-class RegistrationForm(Form):
+class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[
-        DataRequired(),
-        EqualTo('confirm', message='Пароли должны совпадать')
-    ])
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
     submit = SubmitField('Register')
 
-from flask_wtf import FlaskForm
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
 class UploadForm(FlaskForm):
-    user_id = StringField('User ID', validators=[DataRequired()])
-    file = FileField('Выберите файл', validators=[DataRequired()])
-    submit = SubmitField('Загрузить')
+    file = FileField('Select File', validators=[DataRequired()])
+    submit = SubmitField('Upload')
+
+class DataForm(FlaskForm):
+    name = StringField('Name')
+    data_content = TextAreaField('Enter Data to Encrypt', validators=[DataRequired()])
+    submit = SubmitField('Submit')
