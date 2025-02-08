@@ -1,52 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Secure File Storage - Upload</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { 
-      background-color: #f8f9fa; 
-    }
-    .card { 
-      margin-top: 30px; 
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2 class="text-center mt-4">Upload a File</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    <div class="card">
-      <div class="card-body">
-        <form action="{{ url_for('main.upload_file') }}" method="post" enctype="multipart/form-data">
-          <!-- Notice: No CSRF token is rendered here -->
-          <div class="form-group">
-            <label for="file">Choose File</label>
-            <input type="file" class="form-control-file" id="file" name="file" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Upload</button>
-          <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back to Home</a>
-        </form>
+{% extends "base.html" %}
+{% block title %}Secure Storage - Upload{% endblock %}
+{% block head %}
+<style>
+  .upload-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-out;
+  }
+  .upload-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .upload-container .form-group {
+    margin-bottom: 20px;
+  }
+  .btn-upload {
+    position: relative;
+    overflow: hidden;
+    background-color: #291d89;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .btn-upload:hover {
+    background-color: #1d1466;
+  }
+  .btn-upload svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    stroke: #fff;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 125.66;
+    stroke-dashoffset: 125.66;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+  .btn-upload:hover svg {
+    stroke-dashoffset: 0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="upload-container">
+    <h2>Upload a File</h2>
+    <form action="{{ url_for('main.upload_file') }}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="file">Choose File</label>
+        <input type="file" class="form-control-file" id="file" name="file" required>
       </div>
-    </div>
+      <button type="submit" class="btn-upload">
+        Upload
+        <svg viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20" />
+          <polyline points="12,24 20,32 36,16" />
+        </svg>
+      </button>
+      <a href="{{ url_for('main.index') }}" class="btn btn-secondary ml-3">Back to Home</a>
+    </form>
   </div>
-  <!-- Bootstrap and dependencies JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

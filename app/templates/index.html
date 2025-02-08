@@ -1,81 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Secure File Storage - Home</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { 
-      background-color: #f8f9fa; 
-    }
-    .navbar { 
-      margin-bottom: 20px; 
-    }
-    .card { 
-      margin-bottom: 20px; 
-    }
-  </style>
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}">Secure Storage</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('main.upload_file') }}">Upload File</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="container">
-    <h1 class="mb-4 text-center">Welcome, {{ current_user.username }}!</h1>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <!-- List of Uploaded Files -->
-    <div class="card">
-      <div class="card-header"><h3>Your Uploaded Files</h3></div>
-      <div class="card-body">
-        {% if files %}
-          <ul class="list-group">
-            {% for file in files %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ file.filename }}
-                <a href="{{ url_for('main.download_file', file_id=file.id) }}" class="btn btn-success btn-sm">Download</a>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>No files uploaded yet.</p>
-        {% endif %}
-      </div>
-    </div>
+{% extends "base.html" %}
+{% block title %}Secure Storage - Home{% endblock %}
+{% block head %}
+<style>
+  .hero {
+    background: url('https://source.unsplash.com/1600x900/?data,security') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    animation: fadeIn 1s ease-out;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+  }
+  .hero h1 {
+    position: relative;
+    font-size: 3rem;
+    z-index: 1;
+  }
+  .files-list {
+    margin-top: 30px;
+    animation: fadeIn 1s ease-out;
+  }
+  .files-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  .files-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .btn-download {
+    background-color: #291d89;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  .btn-download:hover {
+    background-color: #1d1466;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="hero">
+    <h1>Welcome, {{ current_user.username }}!</h1>
   </div>
-
-  <!-- Bootstrap and dependencies JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+  <div class="files-list">
+    <h3>Your Uploaded Files</h3>
+    {% if files %}
+      <ul>
+        {% for file in files %}
+          <li>
+            <span>{{ file.filename }}</span>
+            <a href="{{ url_for('main.download_file', file_id=file.id) }}" class="btn btn-download">Download</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No files uploaded yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}
