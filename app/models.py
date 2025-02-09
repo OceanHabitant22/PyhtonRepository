@@ -6,7 +6,8 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)  # hashed password
+    email = db.Column(db.String(150), unique=True, nullable=False)  # Новое поле email
+    password = db.Column(db.String(200), nullable=False)  # Хэшированный пароль
 
     # Relationships
     rsa_keys = db.relationship('RSAKey', backref='user', lazy=True)
@@ -26,6 +27,6 @@ class File(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(200), nullable=False)
     encrypted_data = db.Column(db.LargeBinary, nullable=False)
-    encrypted_key = db.Column(db.LargeBinary, nullable=False)  # New column
+    encrypted_key = db.Column(db.LargeBinary, nullable=False)  # Хранит RSA-шифрованный AES-ключ
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     key_version = db.Column(db.Integer, nullable=False)

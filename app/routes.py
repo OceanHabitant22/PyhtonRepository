@@ -8,7 +8,9 @@ from cryptography.hazmat.primitives import serialization
 from .myextensions import db
 from .models import User, RSAKey, File
 from .crypto import generate_rsa_keys, hybrid_encrypt_file_data, hybrid_decrypt_file_data
-from .forms import RegistrationForm, LoginForm, UploadForm
+from .forms import RegistrationForm, LoginForm, UploadForm, ResetPasswordRequestForm, ResetPasswordForm
+from flask_mail import Message
+from itsdangerous import URLSafeTimedSerializer
 import re
 
 def validate_username(username: str) -> bool:
@@ -34,17 +36,18 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data.strip()
+        email = form.email.data.strip()  # Извлекаем email
         if not validate_username(username):
             flash("Неверный формат имени пользователя", "danger")
             return redirect(url_for('main.register'))
         password = form.password.data.strip()
-        # Проверка, существует ли уже пользователь
-        if User.query.filter_by(username=username).first():
+        # Проверка, существует ли пользователь по username или email
+        if User.query.filter((User.username == username) | (User.email == email)).first():
             flash('User already exists. Please log in.', 'danger')
             return redirect(url_for('main.login'))
-        # Создание и сохранение нового пользователя
+        # Хэширование пароля и создание нового пользователя
         hashed_password = generate_password_hash(password)
-        new_user = User(username=username, password=hashed_password)
+        new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -61,7 +64,6 @@ def register():
 
         # Автоматический вход нового пользователя и перенаправление на главную страницу
         login_user(new_user)
-        print("DEBUG: User logged in:", current_user.is_authenticated)
         flash('Registration successful! You are now logged in.', 'success')
         return redirect(url_for('main.index'))
     return render_template('register.html', form=form)
@@ -120,18 +122,18 @@ def upload_file():
             current_key_record.public_key.encode('utf-8')
         )
         
-        # Шифрование данных с использованием гибридного алгоритма
+        # Шифрование файла с использованием гибридного алгоритма
         try:
             encrypted_symmetric_key, encrypted_data = hybrid_encrypt_file_data(public_key, file_data)
         except Exception as e:
             flash("Encryption failed: " + str(e), "danger")
             return redirect(url_for('main.upload_file'))
         
-        # Создание записи файла с зашифрованными данными и ключом
+        # Создание записи файла
         new_file = File(
             filename=filename,
             encrypted_data=encrypted_data,
-            encrypted_key=encrypted_symmetric_key,  # Убедитесь, что в модели File есть этот столбец!
+            encrypted_key=encrypted_symmetric_key,  # Обязательно наличие этого столбца в модели File
             user_id=current_user.id,
             key_version=current_key_record.key_version
         )
@@ -173,7 +175,6 @@ def download_file(file_id):
         flash(f"Error decrypting file: {e}", "danger")
         return redirect(url_for('main.index'))
     
-    # Сохранение временного файла для скачивания
     temp_filename = f"decrypted_{file_record.filename}"
     temp_path = os.path.join(current_app.config['UPLOAD_FOLDER'], temp_filename)
     with open(temp_path, 'wb') as temp_file:
@@ -185,3 +186,60 @@ def download_file(file_id):
         as_attachment=True,
         download_name=file_record.filename
     )
+
+# Маршруты для сброса пароля
+
+@main.route('/reset-password', methods=['POST'])
+def reset_password():
+    email = request.form.get('email')
+    # Генерация токена для сброса пароля
+    token = current_app.serializer.dumps(email, salt='password-reset-salt')
+    reset_url = url_for('main.reset_password_form', token=token, _external=True)
+
+    msg = Message('Сброс пароля',
+                  sender=current_app.config['MAIL_USERNAME'],
+                  recipients=[email])
+    msg.body = f'Чтобы сбросить пароль, перейдите по ссылке: {reset_url}'
+    current_app.mail.send(msg)
+    flash("Письмо для сброса пароля отправлено", "info")
+    return redirect(url_for('main.login'))
+
+def generate_reset_token(email):
+    from itsdangerous import URLSafeTimedSerializer
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt='password-reset-salt')
+
+def verify_reset_token(token):
+    from itsdangerous import URLSafeTimedSerializer
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    try:
+        email = serializer.loads(token, salt='password-reset-salt', max_age=3600)
+        return email
+    except Exception:
+        return None
+
+@main.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password_form(token):
+    email = verify_reset_token(token)
+    if not email:
+        flash("Ссылка устарела или недействительна", "danger")
+        return redirect(url_for('main.reset_password_request'))
+    
+    if request.method == 'POST':
+        new_password = request.form.get('password')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            flash("Пароль успешно обновлён", "success")
+            return redirect(url_for('main.login'))
+        else:
+            flash("Пользователь не найден", "danger")
+            return redirect(url_for('main.register'))
+    
+    return ''' 
+        <form method="post">
+            Новый пароль: <input type="password" name="password">
+            <button type="submit">Сбросить пароль</button>
+        </form>
+    '''

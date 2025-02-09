@@ -66,3 +66,113 @@
 2025-02-09 18:42:10,921 [INFO]  * Debugger PIN: 101-837-310
 2025-02-09 18:42:18,571 [INFO] 127.0.0.1 - - [09/Feb/2025 18:42:18] "GET / HTTP/1.1" 200 -
 2025-02-09 18:42:18,669 [INFO] 127.0.0.1 - - [09/Feb/2025 18:42:18] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 21:55:59,995 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 21:56:00,073 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 21:56:00,074 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 21:56:00,077 [INFO]  * Restarting with stat
+2025-02-09 21:56:01,718 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 21:56:01,750 [WARNING]  * Debugger is active!
+2025-02-09 21:56:01,760 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 21:56:12,629 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:12] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-09 21:56:12,678 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:12] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-09 21:56:12,762 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:12] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 21:56:13,002 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:13] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-02-09 21:56:19,966 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:19] "[35m[1mPOST /login HTTP/1.1[0m" 500 -
+2025-02-09 21:56:20,246 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:20] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-09 21:56:20,264 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:20] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-09 21:56:20,373 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:20] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=1oQRcHi3RE2ohFqUCoa7 HTTP/1.1" 200 -
+2025-02-09 21:56:20,407 [INFO] 127.0.0.1 - - [09/Feb/2025 21:56:20] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-09 21:58:13,213 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 21:58:14,960 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:03:17,968 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:07:28,051 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:07:28,099 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 22:07:28,100 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 22:07:28,102 [INFO]  * Restarting with stat
+2025-02-09 22:07:29,911 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:07:29,968 [WARNING]  * Debugger is active!
+2025-02-09 22:07:29,983 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 22:07:32,344 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 22:07:32,395 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:32] "GET /register HTTP/1.1" 200 -
+2025-02-09 22:07:32,468 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:32] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:07:41,072 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:41] "GET /login HTTP/1.1" 200 -
+2025-02-09 22:07:41,135 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:41] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:07:47,712 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:47] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 22:07:47,740 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:47] "GET /register HTTP/1.1" 200 -
+2025-02-09 22:07:47,800 [INFO] 127.0.0.1 - - [09/Feb/2025 22:07:47] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:08:16,700 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:16] "GET /login HTTP/1.1" 200 -
+2025-02-09 22:08:16,764 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:16] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:08:22,139 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:22] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 22:08:22,171 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:22] "GET /register HTTP/1.1" 200 -
+2025-02-09 22:08:22,230 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:22] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:08:38,541 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:38] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-02-09 22:08:38,828 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:38] "GET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-02-09 22:08:38,831 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:38] "GET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-02-09 22:08:38,882 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:38] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=25a6ZF7cVP4S3QX3NNMj HTTP/1.1" 200 -
+2025-02-09 22:08:38,912 [INFO] 127.0.0.1 - - [09/Feb/2025 22:08:38] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-02-09 22:10:30,711 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:10:30,754 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 22:10:30,755 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 22:10:30,757 [INFO]  * Restarting with stat
+2025-02-09 22:10:32,467 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:10:32,498 [WARNING]  * Debugger is active!
+2025-02-09 22:10:32,510 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 22:10:35,853 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:35] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-02-09 22:10:36,106 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:36] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-09 22:10:36,112 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:36] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-09 22:10:36,159 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:36] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=W5ERDNxKAFSKRcgXuTlr HTTP/1.1" 200 -
+2025-02-09 22:10:36,200 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:36] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-02-09 22:10:40,910 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:40] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-02-09 22:10:41,074 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:41] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-09 22:10:41,083 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:41] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-09 22:10:41,175 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:41] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=W5ERDNxKAFSKRcgXuTlr HTTP/1.1[0m" 304 -
+2025-02-09 22:10:41,240 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:41] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-02-09 22:10:43,136 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:43] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-09 22:10:43,177 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:43] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-09 22:10:43,258 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:43] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:10:52,638 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:52] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 22:10:52,675 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:52] "GET /register HTTP/1.1" 200 -
+2025-02-09 22:10:52,726 [INFO] 127.0.0.1 - - [09/Feb/2025 22:10:52] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:11:00,167 [INFO] 127.0.0.1 - - [09/Feb/2025 22:11:00] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2025-02-09 22:11:00,254 [INFO] 127.0.0.1 - - [09/Feb/2025 22:11:00] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-02-09 22:11:00,273 [INFO] 127.0.0.1 - - [09/Feb/2025 22:11:00] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-02-09 22:11:00,332 [INFO] 127.0.0.1 - - [09/Feb/2025 22:11:00] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png&s=W5ERDNxKAFSKRcgXuTlr HTTP/1.1[0m" 304 -
+2025-02-09 22:15:06,645 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:15:06,699 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 22:15:06,699 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 22:15:06,702 [INFO]  * Restarting with stat
+2025-02-09 22:15:08,538 [INFO] Registered blueprints: {'main': <Blueprint 'main'>}
+2025-02-09 22:15:08,570 [WARNING]  * Debugger is active!
+2025-02-09 22:15:08,581 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 22:15:16,486 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:16] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-09 22:15:16,532 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:16] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-09 22:15:16,609 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:16] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:18,155 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:18] "GET /register HTTP/1.1" 200 -
+2025-02-09 22:15:18,209 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:18] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:32,757 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:32] "[32mPOST /register HTTP/1.1[0m" 302 -
+2025-02-09 22:15:32,790 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:32] "GET / HTTP/1.1" 200 -
+2025-02-09 22:15:32,845 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:32] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:35,119 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:35] "GET /upload HTTP/1.1" 200 -
+2025-02-09 22:15:35,186 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:35] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:36,435 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:36] "GET / HTTP/1.1" 200 -
+2025-02-09 22:15:36,502 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:36] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:38,138 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:38] "GET /upload HTTP/1.1" 200 -
+2025-02-09 22:15:38,212 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:38] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:45,440 [INFO] Начало гибридного шифрования файла (размер 233746 байт)
+2025-02-09 22:15:45,444 [INFO] Гибридное шифрование завершено
+2025-02-09 22:15:45,469 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:45] "[32mPOST /upload HTTP/1.1[0m" 302 -
+2025-02-09 22:15:45,539 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:45] "GET / HTTP/1.1" 200 -
+2025-02-09 22:15:45,610 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:45] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:47,437 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:47] "GET /download/1 HTTP/1.1" 200 -
+2025-02-09 22:15:49,203 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:49] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-09 22:15:49,226 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:49] "GET /login HTTP/1.1" 200 -
+2025-02-09 22:15:49,314 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:49] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:52,644 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:52] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 22:15:52,675 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:52] "GET / HTTP/1.1" 200 -
+2025-02-09 22:15:52,735 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:52] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 22:15:57,868 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:57] "GET / HTTP/1.1" 200 -
+2025-02-09 22:15:57,924 [INFO] 127.0.0.1 - - [09/Feb/2025 22:15:57] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -

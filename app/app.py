@@ -1,4 +1,8 @@
 import logging
+from dotenv import load_dotenv
+
+# Загрузка переменных окружения из файла .env
+load_dotenv()
 
 # Настройка базового логгера: уровень INFO, формат сообщений и запись в файл app.log
 logging.basicConfig(
@@ -14,19 +18,25 @@ import threading
 import time
 from flask import Flask
 from flask_migrate import Migrate
-from app.config import DevelopmentConfig  # config.py находится в папке app
+from app.config import DevelopmentConfig
 from app.myextensions import db, login_manager
 from app.routes import main as main_blueprint
 from configparser import ConfigParser
-from flask_jwt_extended import JWTManager  # импорт JWTManager (если понадобится для API)
+from flask_jwt_extended import JWTManager
+from flask_mail import Mail
+
+# Инициализируем объект Flask-Mail глобально
+mail = Mail()
 
 def create_app(config_class=DevelopmentConfig):
-    from app.myextensions import db, login_manager  # локальный импорт для избежания циклических зависимостей
+    from app.myextensions import db, login_manager
     app = Flask(__name__, template_folder='templates')
     app.config.from_object(config_class)
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-    app.config['JWT_SECRET_KEY'] = '2ba2058a954592843fe32e98393f676c45af73d263dce3a0d7425ce1a044ff3a'
-    jwt = JWTManager(app)  # JWTManager инициализируется, но для веб-страниц мы используем Flask-Login
+    app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY') or '2ba2058a954592843fe32e98393f676c45af73d263dce3a0d7425ce1a044ff3a'
+    
+    jwt = JWTManager(app)
+    mail.init_app(app)  # Инициализация Flask-Mail
 
     # Убедиться, что папка для загрузки существует
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -40,18 +50,22 @@ def create_app(config_class=DevelopmentConfig):
 
     # Регистрация blueprints
     app.register_blueprint(main_blueprint)
-    print("Registered blueprints:", app.blueprints)
+    logger.info("Registered blueprints: %s", app.blueprints)
 
-    # Создать таблицы базы данных, если их нет
+    # Создание таблиц базы данных (если их нет)
     with app.app_context():
         db.create_all()
 
+    # Создание сериализатора для токенов сброса пароля с помощью itsdangerous
+    from itsdangerous import URLSafeTimedSerializer
+    app.serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    
     return app
 
 # Регистрация user_loader для Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    from .models import User  # локальный импорт для избежания циклических зависимостей
+    from .models import User
     return User.query.get(int(user_id))
 
 def rotate_keys(app):
@@ -112,7 +126,7 @@ def rotate_keys(app):
                         f.encrypted_data = new_encrypted
                         f.key_version = new_version
                     except Exception as e:
-                        app.logger.error(f"Error re-encrypting file {f.filename} for user {user.id}: {e}")
+                        app.logger.error("Error re-encrypting file %s for user %s: %s", f.filename, user.id, e)
                 db.session.commit()
         app.logger.info("Key rotation complete.")
 
@@ -129,4 +143,5 @@ def schedule_key_rotation(app, interval_seconds=86400):
 if __name__ == '__main__':
     app = create_app()
     schedule_key_rotation(app)  # Запуск фоновой ротации ключей
+    # Запуск приложения с SSL (HTTPS)
     app.run(ssl_context=('cert.pem', 'key.pem'))
