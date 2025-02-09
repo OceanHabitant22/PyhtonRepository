@@ -1,0 +1,60 @@
+2025-02-09 02:20:40,726 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 02:20:40,726 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 02:20:40,730 [INFO]  * Restarting with stat
+2025-02-09 02:20:42,350 [WARNING]  * Debugger is active!
+2025-02-09 02:20:42,359 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 02:20:56,492 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 02:20:56,492 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 02:21:34,398 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:34] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-09 02:21:34,467 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:34] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-09 02:21:34,537 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:34] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:21:46,181 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:46] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 02:21:46,240 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:46] "GET / HTTP/1.1" 200 -
+2025-02-09 02:21:46,324 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:46] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:21:52,788 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:52] "GET / HTTP/1.1" 200 -
+2025-02-09 02:21:52,866 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:52] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:21:53,649 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:53] "GET /upload HTTP/1.1" 200 -
+2025-02-09 02:21:53,802 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:53] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:21:55,372 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:55] "GET / HTTP/1.1" 200 -
+2025-02-09 02:21:55,446 [INFO] 127.0.0.1 - - [09/Feb/2025 02:21:55] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:22:12,011 [INFO] 127.0.0.1 - - [09/Feb/2025 02:22:12] "GET /download/3 HTTP/1.1" 200 -
+2025-02-09 02:22:17,836 [INFO] 127.0.0.1 - - [09/Feb/2025 02:22:17] "GET /download/1 HTTP/1.1" 200 -
+2025-02-09 02:53:57,876 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 02:53:57,876 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 02:53:57,880 [INFO]  * Restarting with stat
+2025-02-09 02:54:00,141 [WARNING]  * Debugger is active!
+2025-02-09 02:54:00,162 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 02:54:10,948 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:10] "GET / HTTP/1.1" 200 -
+2025-02-09 02:54:11,078 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:11] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:54:14,254 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:14] "[32mGET /logout HTTP/1.1[0m" 302 -
+2025-02-09 02:54:14,295 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:14] "GET /login HTTP/1.1" 200 -
+2025-02-09 02:54:14,453 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:14] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:54:22,734 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:22] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 02:54:22,773 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:22] "GET / HTTP/1.1" 200 -
+2025-02-09 02:54:22,870 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:22] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:54:25,946 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:25] "GET /upload HTTP/1.1" 200 -
+2025-02-09 02:54:26,051 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:26] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:54:27,407 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:27] "GET / HTTP/1.1" 200 -
+2025-02-09 02:54:27,528 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:27] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 02:54:28,374 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:28] "GET / HTTP/1.1" 200 -
+2025-02-09 02:54:28,462 [INFO] 127.0.0.1 - - [09/Feb/2025 02:54:28] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 18:01:50,639 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-09 18:01:50,640 [INFO] [33mPress CTRL+C to quit[0m
+2025-02-09 18:01:50,643 [INFO]  * Restarting with stat
+2025-02-09 18:01:52,312 [WARNING]  * Debugger is active!
+2025-02-09 18:01:52,322 [INFO]  * Debugger PIN: 101-837-310
+2025-02-09 18:02:08,281 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:08] "[32mGET / HTTP/1.1[0m" 302 -
+2025-02-09 18:02:08,335 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:08] "GET /login?next=/ HTTP/1.1" 200 -
+2025-02-09 18:02:08,399 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:08] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 18:02:08,629 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:08] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-02-09 18:02:29,944 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:29] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-02-09 18:02:30,003 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:30] "GET / HTTP/1.1" 200 -
+2025-02-09 18:02:30,083 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:30] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 18:02:32,755 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:32] "GET /upload HTTP/1.1" 200 -
+2025-02-09 18:02:32,817 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:32] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -
+2025-02-09 18:02:34,068 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:34] "GET / HTTP/1.1" 200 -
+2025-02-09 18:02:34,129 [INFO] 127.0.0.1 - - [09/Feb/2025 18:02:34] "[33mGET /static/js/main.js HTTP/1.1[0m" 404 -

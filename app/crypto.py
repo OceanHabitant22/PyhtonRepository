@@ -1,9 +1,12 @@
 import os
 from typing import Tuple
+import logging
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding as sym_padding
+
+logger = logging.getLogger(__name__)
 
 def generate_rsa_keys() -> Tuple[str, str]:
     """
@@ -63,6 +66,8 @@ def hybrid_encrypt_file_data(public_key, file_data: bytes) -> Tuple[bytes, bytes
         (encrypted_symmetric_key, combined_encrypted_data)
     where combined_encrypted_data = IV + AES_encrypted_file_data.
     """
+    logger.info("Начало гибридного шифрования файла (размер %d байт)", len(file_data))
+    
     # Generate a random 256-bit AES key
     symmetric_key = os.urandom(32)  # 32 bytes = 256 bits
     
@@ -92,7 +97,7 @@ def hybrid_encrypt_file_data(public_key, file_data: bytes) -> Tuple[bytes, bytes
             label=None
         )
     )
-    
+    logger.info("Гибридное шифрование завершено")
     return encrypted_symmetric_key, combined_encrypted_data
 
 def hybrid_decrypt_file_data(private_key, encrypted_symmetric_key: bytes, combined_encrypted_data: bytes) -> bytes:

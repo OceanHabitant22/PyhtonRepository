@@ -9,6 +9,11 @@ from .myextensions import db
 from .models import User, RSAKey, File
 from .crypto import generate_rsa_keys, hybrid_encrypt_file_data, hybrid_decrypt_file_data
 from .forms import RegistrationForm, LoginForm, UploadForm
+import re
+
+def validate_username(username: str) -> bool:
+    pattern = r'^[A-Za-z0-9_]{3,20}$'
+    return re.match(pattern, username) is not None
 
 main = Blueprint('main', __name__)
 
@@ -29,18 +34,21 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data.strip()
+        if not validate_username(username):
+            flash("Неверный формат имени пользователя", "danger")
+            return redirect(url_for('main.register'))
         password = form.password.data.strip()
-        # Check if the user already exists
+        # Проверка, существует ли уже пользователь
         if User.query.filter_by(username=username).first():
             flash('User already exists. Please log in.', 'danger')
             return redirect(url_for('main.login'))
-        # Create and save the new user
+        # Создание и сохранение нового пользователя
         hashed_password = generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
-        # Generate RSA keys for the new user and save them
+        # Генерация RSA ключей для нового пользователя
         public_key, private_key = generate_rsa_keys()
         key_record = RSAKey(
             user_id=new_user.id,
@@ -51,7 +59,7 @@ def register():
         db.session.add(key_record)
         db.session.commit()
 
-        # Automatically log in the new user and redirect to the main page
+        # Автоматический вход нового пользователя и перенаправление на главную страницу
         login_user(new_user)
         print("DEBUG: User logged in:", current_user.is_authenticated)
         flash('Registration successful! You are now logged in.', 'success')
@@ -92,40 +100,38 @@ def logout():
 def upload_file():
     print("DEBUG: current_user.is_authenticated =", current_user.is_authenticated)
     form = UploadForm()
-    
     if request.method == 'POST':
         file = request.files.get('file')
         if not (file and allowed_file(file.filename)):
             flash("Invalid file type.", "danger")
             return redirect(url_for('main.upload_file'))
-        
         filename = secure_filename(file.filename)
         file_data = file.read()
         
-        # Get the latest RSA key record for the user
+        # Получение актуальной записи RSA ключа для пользователя
         current_key_record = RSAKey.query.filter_by(user_id=current_user.id)\
                                          .order_by(RSAKey.created_at.desc()).first()
         if not current_key_record:
             flash("No encryption key found for your account.", "danger")
             return redirect(url_for('main.upload_file'))
         
-        # Load the user's public key
+        # Загрузка публичного ключа
         public_key = serialization.load_pem_public_key(
             current_key_record.public_key.encode('utf-8')
         )
         
-        # Encrypt file_data using hybrid encryption
+        # Шифрование данных с использованием гибридного алгоритма
         try:
             encrypted_symmetric_key, encrypted_data = hybrid_encrypt_file_data(public_key, file_data)
         except Exception as e:
             flash("Encryption failed: " + str(e), "danger")
             return redirect(url_for('main.upload_file'))
         
-        # Create a new File record with both the encrypted file data and the encrypted symmetric key
+        # Создание записи файла с зашифрованными данными и ключом
         new_file = File(
             filename=filename,
             encrypted_data=encrypted_data,
-            encrypted_key=encrypted_symmetric_key,  # Ensure your File model has this column!
+            encrypted_key=encrypted_symmetric_key,  # Убедитесь, что в модели File есть этот столбец!
             user_id=current_user.id,
             key_version=current_key_record.key_version
         )
@@ -134,7 +140,6 @@ def upload_file():
         
         flash(f'File "{filename}" successfully uploaded and encrypted!', "success")
         return redirect(url_for('main.index'))
-    
     return render_template('upload.html', form=form)
 
 @main.route('/download/<int:file_id>')
@@ -145,37 +150,35 @@ def download_file(file_id):
         abort(404)
     if file_record.user_id != current_user.id:
         abort(403)
-
-    # Get the correct RSA key record based on the file's key_version
+    
+    # Получение записи RSA ключа по версии
     key_record = RSAKey.query.filter_by(user_id=current_user.id, key_version=file_record.key_version).first()
     if not key_record:
         flash("Encryption key not found for this file.", "danger")
         return redirect(url_for('main.index'))
-
+    
     try:
-        # Load the private key for decryption
+        # Загрузка приватного ключа
         private_key = serialization.load_pem_private_key(
             key_record.private_key.encode('utf-8'), 
             password=None
         )
-        
-        # Hybrid decryption: decrypt symmetric key and then the file data
+        # Гибридное дешифрование
         decrypted_data = hybrid_decrypt_file_data(
             private_key, 
             file_record.encrypted_key, 
             file_record.encrypted_data
         )
-        
     except Exception as e:
         flash(f"Error decrypting file: {e}", "danger")
         return redirect(url_for('main.index'))
-
-    # Create a temporary file path for the decrypted file
+    
+    # Сохранение временного файла для скачивания
     temp_filename = f"decrypted_{file_record.filename}"
     temp_path = os.path.join(current_app.config['UPLOAD_FOLDER'], temp_filename)
     with open(temp_path, 'wb') as temp_file:
         temp_file.write(decrypted_data)
-
+    
     return send_from_directory(
         current_app.config['UPLOAD_FOLDER'],
         temp_filename,

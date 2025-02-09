@@ -1,52 +1,67 @@
+import logging
+
+# Настройка базового логгера: уровень INFO, формат сообщений и запись в файл app.log
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    filename='app.log',
+    filemode='a'
+)
+logger = logging.getLogger(__name__)
+
 import os
 import threading
 import time
 from flask import Flask
 from flask_migrate import Migrate
-from app.config import DevelopmentConfig  # config.py is inside app/ so this works if run as a package
+from app.config import DevelopmentConfig  # config.py находится в папке app
 from app.myextensions import db, login_manager
 from app.routes import main as main_blueprint
 from configparser import ConfigParser
+from flask_jwt_extended import JWTManager  # импорт JWTManager (если понадобится для API)
 
 def create_app(config_class=DevelopmentConfig):
-    from app.myextensions import db, login_manager  # Local import to avoid circular dependency
+    from app.myextensions import db, login_manager  # локальный импорт для избежания циклических зависимостей
     app = Flask(__name__, template_folder='templates')
     app.config.from_object(config_class)
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['JWT_SECRET_KEY'] = '2ba2058a954592843fe32e98393f676c45af73d263dce3a0d7425ce1a044ff3a'
+    jwt = JWTManager(app)  # JWTManager инициализируется, но для веб-страниц мы используем Flask-Login
 
-    # Ensure the upload folder exists
+    # Убедиться, что папка для загрузки существует
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    # Initialize extensions
+    # Инициализация расширений
     db.init_app(app)
     login_manager.init_app(app)
 
-    # Initialize Flask-Migrate
+    # Инициализация Flask-Migrate
     migrate = Migrate(app, db)
 
-    # Register blueprints
+    # Регистрация blueprints
     app.register_blueprint(main_blueprint)
     print("Registered blueprints:", app.blueprints)
 
-    # Create database tables if they don’t exist
+    # Создать таблицы базы данных, если их нет
     with app.app_context():
         db.create_all()
 
     return app
 
-# Register the user_loader on the single login_manager instance
+# Регистрация user_loader для Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    from .models import User  # local import to avoid circular dependencies
+    from .models import User  # локальный импорт для избежания циклических зависимостей
     return User.query.get(int(user_id))
 
 def rotate_keys(app):
     """
-    Rotate RSA keys for all users and re-encrypt their files with the new key.
+    Ротация RSA ключей для всех пользователей с повторным шифрованием файлов новым ключом.
     """
     from cryptography.hazmat.primitives import serialization, hashes
     from cryptography.hazmat.primitives.asymmetric import padding
-    from models import User, RSAKey, File
-    from crypto import generate_rsa_keys
+    from app.models import User, RSAKey, File
+    from app.crypto import generate_rsa_keys
 
     with app.app_context():
         users = User.query.all()
@@ -54,11 +69,11 @@ def rotate_keys(app):
             current_key = RSAKey.query.filter_by(user_id=user.id).order_by(RSAKey.created_at.desc()).first()
             old_version = current_key.key_version if current_key else 0
 
-            # Generate new RSA keys
+            # Генерация новых RSA ключей
             new_public, new_private = generate_rsa_keys()
             new_version = old_version + 1
 
-            # Save new key record
+            # Сохранение нового ключа
             new_key_record = RSAKey(
                 user_id=user.id,
                 public_key=new_public,
@@ -68,7 +83,7 @@ def rotate_keys(app):
             db.session.add(new_key_record)
             db.session.commit()
 
-            # Re-encrypt files that were encrypted with the old key
+            # Перешифрование файлов, зашифрованных старым ключом
             if current_key:
                 files_to_update = File.query.filter_by(user_id=user.id, key_version=old_version).all()
                 for f in files_to_update:
@@ -102,7 +117,7 @@ def rotate_keys(app):
         app.logger.info("Key rotation complete.")
 
 def schedule_key_rotation(app, interval_seconds=86400):
-    """Run key rotation periodically in a background thread."""
+    """Запуск ротации ключей периодически в фоновом потоке."""
     def run():
         while True:
             time.sleep(interval_seconds)
@@ -113,5 +128,5 @@ def schedule_key_rotation(app, interval_seconds=86400):
 
 if __name__ == '__main__':
     app = create_app()
-    schedule_key_rotation(app)  # Start the background key rotation thread
-    app.run(debug=True)
+    schedule_key_rotation(app)  # Запуск фоновой ротации ключей
+    app.run(ssl_context=('cert.pem', 'key.pem'))
