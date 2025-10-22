@@ -33,7 +33,7 @@ def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__, template_folder='templates')
     app.config.from_object(config_class)
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-    app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY') or '2ba2058a954592843fe32e98393f676c45af73d263dce3a0d7425ce1a044ff3a'
+    app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
     
     jwt = JWTManager(app)
     mail.init_app(app)  # Инициализация Flask-Mail

@@ -1,18 +1,45 @@
-# Игнорирование виртуального окружения
+# Виртуальное окружение
 venv/
 env/
+ENV/
 
-# Игнорирование базы данных
-*.db
-*.sqlite3
-
-# Игнорирование файлов кэша Python
-__pycache__/
-*.pyc
-
-# Игнорирование секретных файлов
+# Секретные данные
+.env
+*.pem
+*.key
 cert.pem
 key.pem
 
-# Игнорирование папки миграций (если используете Flask-Migrate, можно оставить её, если не хотите)
-#migrations/
+# База данных
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Логи
+*.log
+app.log
+
+# Загруженные файлы
+uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Flask
+instance/
+.webassets-cache

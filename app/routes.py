@@ -107,7 +107,9 @@ def upload_file():
         if not (file and allowed_file(file.filename)):
             flash("Invalid file type.", "danger")
             return redirect(url_for('main.upload_file'))
-        filename = secure_filename(file.filename)
+        
+        # Сохраняем оригинальное имя файла (без изменений)
+        original_filename = file.filename  # ← Изменение здесь
         file_data = file.read()
         
         # Получение актуальной записи RSA ключа для пользователя
@@ -129,18 +131,18 @@ def upload_file():
             flash("Encryption failed: " + str(e), "danger")
             return redirect(url_for('main.upload_file'))
         
-        # Создание записи файла
+        # Создание записи файла с оригинальным именем
         new_file = File(
-            filename=filename,
+            filename=original_filename,  # ← Используем оригинальное имя
             encrypted_data=encrypted_data,
-            encrypted_key=encrypted_symmetric_key,  # Обязательно наличие этого столбца в модели File
+            encrypted_key=encrypted_symmetric_key,
             user_id=current_user.id,
             key_version=current_key_record.key_version
         )
         db.session.add(new_file)
         db.session.commit()
         
-        flash(f'File "{filename}" successfully uploaded and encrypted!', "success")
+        flash(f'File "{original_filename}" successfully uploaded and encrypted!', "success")
         return redirect(url_for('main.index'))
     return render_template('upload.html', form=form)
 

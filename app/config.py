@@ -3,10 +3,10 @@ import os
 
 class Config:
     # Чтение секретного ключа из переменной окружения (.env) или использование значения по умолчанию (для разработки)
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'default_secret_key'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     
     # Настройка базы данных
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///vault.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Папка для загрузки файлов
@@ -21,8 +21,8 @@ class Config:
     MAIL_SERVER = 'smtp.mail.ru'   # если используете Mail.ru; для Gmail: 'smtp.gmail.com'
     MAIL_PORT = 465                # для Mail.ru (SSL)
     MAIL_USE_SSL = True            # для Mail.ru
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or 'vaultguard@mail.ru'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'your_mail_password'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     
     # Включение CSRF защиты через Flask-WTF
     WTF_CSRF_ENABLED = True
